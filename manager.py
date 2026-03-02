@@ -1,12 +1,13 @@
 from modele import Ksiazka, Film, Gra
 import json
 
+
 class Manager:
     def __init__(self):
         self.media_list = []
 
     def dodaj_pozycje(self):
-        typ = input("Podaj typ (ksiazka/film/gra): ").lower()
+        typ = input("Podaj typ (Książka/Film/Gra): ").lower()
         tytul = input("Podaj tytuł: ").title()
         rok_wydania = int(input("Podaj rok: "))
         gatunek = input("Podaj gatunek: ").title()
@@ -40,21 +41,27 @@ class Manager:
         print("Dodano pomyślnie!")
 
     def wyszukaj(self):
-        tytul = input("Podaj tytuł do wyszukania: ").title()
+        tytul = input("Podaj tytuł do wyszukania: ").strip().lower()
+
         for item in self.media_list:
-            if item.tytul.lower() == tytul.lower():
-                print("Znaleziono:", item.tytul, item.rok, item.gatunek)
+            if item.tytul.strip().lower() == tytul:
+                print("\nZnaleziono!")
                 return item
-        print("Nie znaleziono.")
+
         return None
 
     def usun(self):
-        tytul = input("Podaj tytuł do usunięcia: ").title()
-        self.media_list = [
-            m for m in self.media_list if m.tytul == tytul
-        ]
-        self.zapisz()
-        print("Jeśli istniało — zostało usunięte.")
+        tytul = input("Podaj tytuł do usunięcia: ").strip().lower()
+
+        for item in self.media_list:
+            if item.tytul.strip().lower() == tytul:
+                self.media_list.remove(item)
+                self.zapisz()
+                print("\nZnaleziono!")
+                print(f"Pozycja '{tytul.title()}' została usunięta")
+                return
+
+        print("Nie znaleziono!")
 
     def pokaz_wszystkie(self):
         if not self.media_list:
@@ -79,10 +86,10 @@ class Manager:
             rekord["typ"] = item.__class__.__name__  # Bo JSON sam nie wie, jaką klasą był obiekt
             dane.append(rekord)
 
-        with open("dane.json", "w", encoding="utf-8") as f:  # w - nadpisuje plik/ towrzy jak nie ma
+        with open("dane.json", "w", encoding="utf-8") as f:  # w - nadpisuje plik/ tworzy jak nie ma
             json.dump(dane, f, indent=4)  # co_zapisać, gdzie_zapisać, opcje
         # f- otwarty plik | indent=4 - ładne formatowanie
-        print("Zapisano do pliku.")
+        print("Zapisano !!!")
 
     def wczytaj(self):
         try:
@@ -94,11 +101,11 @@ class Manager:
             for rekord in dane:
                 typ = rekord.pop("typ")  # usuwa typ ze słownika
 
-                if typ == "ksiazka":
+                if typ == "Ksiazka":
                     obiekt = Ksiazka(**rekord)  # rozpakuj słownik jako argumenty nazwane
-                elif typ == "film":
+                elif typ == "Film":
                     obiekt = Film(**rekord)
-                elif typ == "gra":
+                elif typ == "Gra":
                     obiekt = Gra(**rekord)
                 else:
                     continue
@@ -111,9 +118,9 @@ class Manager:
             print("Brak pliku do wczytania — start z pustą bazą danych.")
 
     def ocena(self):
-        tytul = input("Podaj tytuł do ocenienia: ").lower()
+        tytul = input("Podaj tytuł do ocenienia: ").strip().lower()
         for item in self.media_list:
-            if item.tytul == tytul:
+            if item.tytul.strip().lower() == tytul:
                 while True:
                     try:
                         ocena = float(input("Podaj ocenę (0-10): "))
@@ -128,3 +135,149 @@ class Manager:
                         print("Podaj liczbę!")
 
         print("Nie znaleziono pozycji.")
+
+    def edycja_danych(self):
+        typ = input("Podaj typ (Ksiazka/Film/Gra): ").lower()
+        tytul = input("Podaj tytuł do edycji: ").strip().lower()
+
+        for item in self.media_list:
+            if item.tytul.strip().lower() == tytul:
+
+                if typ == "ksiazka":
+                    self.edytuj_ksiazke(item)
+                elif typ == "film":
+                    self.edytuj_film(item)
+                elif typ == "gra":
+                    self.edytuj_gre(item)
+
+                return
+
+        print("Nie znaleziono pozycji.")
+
+    def edytuj_ksiazke(self, item):
+
+        while True:
+
+            print("\nCo chcesz edytować?")
+            print("1. Tytuł")
+            print("2. Autor")
+            print("3. Rok wydania")
+            print("4. Gatunek")
+            print("5. Wydawnictwo")
+            print("6. Miejsce wydania")
+            print("7. Wyjście")
+
+            try:
+                wybor = int(input("Podaj wybór: "))
+
+                if wybor == 1:
+                    item.tytul = input("Nowy tytuł: ")
+                elif wybor == 2:
+                    item.autor = input("Nowy autor: ")
+                elif wybor == 3:
+                    try:
+                        item.rok_wydania = int(input("Nowy rok: "))
+                    except ValueError:
+                        print("Podaj poprawny rok!")
+                elif wybor == 4:
+                    item.gatunek = input("Nowy gatunek: ")
+                elif wybor == 5:
+                    item.wydawnictwo = input("Nowe wydawnictwo: ")
+                elif wybor == 6:
+                    item.miejsce_wydania = input("Nowe miejsce wydania: ")
+                elif wybor == 7:
+                    self.zapisz()
+                    return
+
+                else:
+                    print("Nieprawidłowy wybór!")
+
+            except ValueError:
+                print("Podaj poprawną liczbę!")
+
+    def edytuj_film(self, item):
+
+        while True:
+
+            print("\nCo chcesz edytować?")
+            print("1. Tytuł")
+            print("2. Reżyser")
+            print("3. Scenarzysta")
+            print("4. Producent")
+            print("5. Studio filmowe")
+            print("6. Gatunek")
+            print("7. Rok produkcji")
+            print("8. Wyjście")
+
+            try:
+                wybor = int(input("Podaj wybór: "))
+
+                if wybor == 1:
+                    item.tytul = input("Nowy tytuł: ")
+                elif wybor == 2:
+                    item.rezyser = input("Nowy reżyser: ")
+                elif wybor == 3:
+                    item.scenarzysta = input("Nowy scenarzysta: ")
+                elif wybor == 4:
+                    item.producent = input("Nowy producent: ")
+                elif wybor == 5:
+                    item.studio_filmowe = input("Nowe studio filmowe: ")
+                elif wybor == 6:
+                    item.gatunek = input("Nowy gatunek: ")
+                elif wybor == 7:
+                    try:
+                        item.rok_wydania = int(input("Nowy rok: "))
+                    except ValueError:
+                        print("Podaj poprawny rok!")
+                elif wybor == 8:
+                    self.zapisz()
+                    return
+                else:
+                    print("Nieprawidłowy wybór!")
+
+
+            except ValueError:
+                print("Podaj poprawną liczbę!")
+
+    def edytuj_gre(self, item):
+
+        while True:
+
+            print("\nCo chcesz edytować?")
+            print("1. Tytuł")
+            print("2. Studio")
+            print("3. Wydawca")
+            print("4. Rok produkcji")
+            print("5. Platforma")
+            print("6. Gatunek")
+            print("7. Tryb gry")
+            print("8. Wyjście")
+
+            try:
+                wybor = int(input("Podaj wybór: "))
+
+                if wybor == 1:
+                    item.tytul = input("Nowy tytuł: ")
+                elif wybor == 2:
+                    item.studio = input("Nowe studio: ")
+                elif wybor == 3:
+                    item.wydawca = input("Nowy wydawca: ")
+                elif wybor == 4:
+                    try:
+                        item.rok_wydania = int(input("Nowy rok: "))
+                    except ValueError:
+                        print("Podaj poprawny rok!")
+                elif wybor == 5:
+                    item.platforma = input("Nowa platforma: ")
+                elif wybor == 6:
+                    item.gatunek = input("Nowy gatunek: ")
+                elif wybor == 7:
+                    item.tryb_gry = input("Nowy tryb gry: ")
+                elif wybor == 8:
+                    self.zapisz()
+                    return
+                else:
+                    print("Nieprawidłowy wybór!")
+
+            except ValueError:
+                print("Podaj poprawną liczbę!")

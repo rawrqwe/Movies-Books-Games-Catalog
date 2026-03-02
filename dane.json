@@ -1,13 +1,23 @@
 [
     {
         "tytul": "Rafal",
-        "rok_wydania": "2012",
+        "rok_wydania": 2013,
         "gatunek": "Rafal",
         "oceny": [],
         "platforma": "Rafal",
-        "studio": "Rafal",
-        "wydawca": "Rafal",
-        "tryb_gry": "Rafal",
+        "studio": "Rafl",
+        "wydawca": "Raf",
+        "tryb_gry": "Raa",
         "typ": "Gra"
+    },
+    {
+        "tytul": "rafal",
+        "rok_wydania": 123,
+        "gatunek": "Qwe",
+        "oceny": [],
+        "autor": "Qwe",
+        "wydawnictwo": "Qwe",
+        "miejsce_wydania": "Qwe",
+        "typ": "Ksiazka"
     }
 ]
