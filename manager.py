@@ -12,7 +12,7 @@ class Manager:
         rok_wydania = int(input("Podaj rok: "))
         gatunek = input("Podaj gatunek: ").title()
 
-        if typ == "ksiazka":
+        if typ == "książka":
             autor = input("Podaj autor: ").title()
             wydawnictwo = input("Podaj wydawnictwo: ").title()
             miejsce_wydania = input("Podaj miejsce wydania: ").title()
@@ -69,27 +69,21 @@ class Manager:
             return
 
         for item in self.media_list:
-            print(
-                item.tytul,
-                "|",
-                item.rok,
-                "|",
-                item.gatunek,
-                "| Średnia ocen:",
-                item.srednia_ocen(),
-            )
+            print(f"Typ: {item.typ} | Tytuł: {item.tytul} | Rok wydania: {item.rok_wydania} | Średnia ocen: {item.srednia_ocen()}")
 
-    def zapisz(self):
+    def zapisz(self, komunikat=True):
         dane = []
         for item in self.media_list:
             rekord = vars(item).copy()  # vars zwraca słownik wszystkich atrybutów instancji
-            rekord["typ"] = item.__class__.__name__  # Bo JSON sam nie wie, jaką klasą był obiekt
+            rekord["typ"] = item.typ  # Bo JSON sam nie wie, jaką klasą był obiekt
             dane.append(rekord)
 
         with open("dane.json", "w", encoding="utf-8") as f:  # w - nadpisuje plik/ tworzy jak nie ma
             json.dump(dane, f, indent=4)  # co_zapisać, gdzie_zapisać, opcje
         # f- otwarty plik | indent=4 - ładne formatowanie
-        print("Zapisano !!!")
+
+        if komunikat:
+            print("Zapisano!")
 
     def wczytaj(self):
         try:
@@ -101,7 +95,7 @@ class Manager:
             for rekord in dane:
                 typ = rekord.pop("typ")  # usuwa typ ze słownika
 
-                if typ == "Ksiazka":
+                if typ == "Ksiażka":
                     obiekt = Ksiazka(**rekord)  # rozpakuj słownik jako argumenty nazwane
                 elif typ == "Film":
                     obiekt = Film(**rekord)

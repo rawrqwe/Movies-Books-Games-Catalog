@@ -24,10 +24,11 @@ class Ksiazka(Media):
         self.autor = autor
         self.wydawnictwo = wydawnictwo
         self.miejsce_wydania = miejsce_wydania
+        self.typ = "Książka"
 
     def __str__(self):
         return (
-            f"Typ: Książka\n"
+            f"Typ: {self.typ}\n"
             f"Tytuł: {self.tytul}\n"
             f"Autor: {self.autor}\n"
             f"Rok wydania: {self.rok_wydania}\n"
@@ -45,10 +46,11 @@ class Film(Media):
         self.scenarzysta = scenarzysta
         self.producent = producent
         self.studio_filmowe = studio_filmowe
+        self.typ = "Film"
 
     def __str__(self):
         return (
-            f"Typ: Film\n"
+            f"Typ: {self.typ}\n"
             f"Tytuł: {self.tytul}\n"
             f"Reżyser: {self.rezyser}\n"
             f"Scenarzysta: {self.scenarzysta}\n"
@@ -67,10 +69,11 @@ class Gra(Media):
         self.studio = studio
         self.wydawca = wydawca
         self.tryb_gry = tryb_gry
+        self.typ = "Gra"
 
     def __str__(self):
         return (
-            f"Typ: Gra\n"
+            f"Typ: {self.typ}\n"
             f"Tytuł: {self.tytul}\n"
             f"Studio: {self.studio}\n"
             f"Wydawca: {self.wydawca}\n"
