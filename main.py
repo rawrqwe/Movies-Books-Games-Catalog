@@ -11,8 +11,9 @@ def main():
             print("2. Usuń pozycje")
             print("3. Wyszukaj pozycje")
             print("4. Edytuj dane")
-            print("5. Ocen (Książka/Film/Gra)")
-            print("6. Wyjscie")
+            print("5. Oceń (Książka/Film/Gra)")
+            print("6. Pokaz wszystkie zapisane pozycje")
+            print("7. Wyjście")
 
             try:
                 user = int(input("Wybierz opcje: "))
@@ -35,10 +36,12 @@ def main():
             elif user == 5:
                 manager.ocena()
             elif user == 6:
+                manager.pokaz_wszystkie()
+            elif user == 7:
                 break
     finally:
-        manager.zapisz()
-        print("Dane zapisane przy zamykaniu programu.")
+        manager.zapisz(komunikat=False)
+        print(f"Dane zapisane przy zamykaniu programu.")
 
 
 if __name__ == "__main__":
