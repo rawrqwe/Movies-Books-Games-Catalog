@@ -39,4 +39,4 @@ Edycji danych
 Zamykaniu programu
 👨‍💻 Autor
 
-[Rafał Szopa $ Maksym Buka]
+[Rafał Szopa & Maksym Buka]
