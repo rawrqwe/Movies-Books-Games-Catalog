@@ -39,6 +39,8 @@ def main():
                 manager.pokaz_wszystkie()
             elif user == 7:
                 break
+            else:
+                print("Nieprawidłowy wybór!")
     finally:
         manager.zapisz(komunikat=False)
         print(f"Dane zapisane przy zamykaniu programu.")
